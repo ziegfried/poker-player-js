@@ -25,9 +25,9 @@ _.extend(Player.prototype, {
             if (numberOfPlayers > 3) {
                 preFlopRating--;
             }
-            if (this.lowBall && numberOfPlayers > 3) {
-                preFlopRating--;
-            }
+//            if (this.lowBall && numberOfPlayers > 3) {
+//                preFlopRating--;
+//            }
             switch (preFlopRating) {
                 case 0:
                     if (this.state.haveBigBlind) {
@@ -58,7 +58,7 @@ _.extend(Player.prototype, {
                 return this.fold(gameState);
             } else {
                 if (gameState.current_buy_in - me.bet > 100) {
-                    if (Math.random() * 100 > 5) {
+                    if (this.ratePreFlop(gameState) < 4 && Math.random() * 100 > 5) {
                         return this.fold(gameState);
                     }
                 }
