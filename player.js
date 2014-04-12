@@ -25,9 +25,9 @@ _.extend(Player.prototype, {
             if (numberOfPlayers > 3) {
                 preFlopRating--;
             }
-//            if (this.lowBall && numberOfPlayers > 3) {
-//                preFlopRating--;
-//            }
+            if (this.lowBall && numberOfPlayers > 3) {
+                preFlopRating--;
+            }
             switch (preFlopRating) {
                 case 0:
                     if (this.state.haveBigBlind) {
