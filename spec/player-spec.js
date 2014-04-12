@@ -1,6 +1,5 @@
-
-
 var player = require('../player.js');
+
 
 describe('player', function() {
 
@@ -87,12 +86,14 @@ describe('player', function() {
     ]
 };
 
-   var good_card_mock;
-   var bad_card_mock;
+   function buildMockWithCards(cards) {
+      var obj = JSON.parse(JSON.stringify(game_state_mock));
+      obj.players[obj.in_action]["hole_cards"] = cards;
+      return obj;
+   };
 
 
    describe('bet_request', function() {
-
       it('should return 0 by default', function() {
          expect(player.bet_request()).toBe(0);
       });
@@ -100,11 +101,38 @@ describe('player', function() {
 
    });
 
+   describe('raise', function() {
+
+      it('should return min-raise multiplied by multiplier', function() {
+         var min_raise = game_state_mock.minimum_raise;
+         var multiplier = 3;
+         var bet = game_state_mock.players[game_state_mock.in_action].bet;
+         var buyin = game_state_mock.current_buy_in;
+
+         expect(player.raise(game_state_mock, 3)).toBe(buyin - bet + min_raise * multiplier);
+      });
+
+
+   });
+
    describe('ratePreFlop', function() {
 
-      it('should rate a high card pair good', function() {
-         expect(player.ratePreFlop(game_state)).toBe(1);
+      it('should return a rating of 3 for a high card pair', function() {
+         var mock = buildMockWithCards([
+            { "rank": "D", "suite": "hearts" },
+            { "rank": "D", "suite": "spades" }
+         ]);
+         expect(player.ratePreFlop(mock)).toBe(3);
       });
+
+      it('should return a rating of 2 for suited high cards', function() {
+         var obj = buildMockWithCards([
+            { "rank": "D", "suite": "hearts" },
+            { "rank": "J", "suite": "hearts" }
+         ]);
+         expect(player.ratePreFlop(obj)).toBe(2);
+      });
+
 
    });
 
