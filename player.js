@@ -5,6 +5,7 @@ module.exports = {
     VERSION: "No Idea Bot v0.1",
 
     bet_request: function(gameState) {
+        console.log('BET REQUEST: ' + JSON.stringify(gameState, null, '\t'));
         if (!gameState) {
             console.log('bet_request called with empty game state!!!');
             return 0;
@@ -22,15 +23,23 @@ module.exports = {
                     return this.raiseMin(gameState);
                 case 2:
                     console.log('max raise');
+                    return this.raiseMin(gameState);
+                case 3:
+                    console.log('max raise');
                     return 1000;
             }
         } else {
-            switch (parseInt(Math.random() * 10)) {
+            switch (parseInt(Math.random() * 20)) {
                 case 0:
                     return this.allIn(gameState);
                 case 1:
-                    return this.raiseMin(gameState);
                 case 2:
+                case 3:
+                case 4:
+                    return this.raiseMin(gameState);
+                case 5:
+                case 6:
+                case 7:
                     return this.fold(gameState);
                 default:
                     return this.check(gameState);
@@ -44,13 +53,13 @@ module.exports = {
         var goodCards = ['J', 'D', 'K', 'A'];
 
         var isSuite = me.hole_cards[0].suit === me.hole_cards[1].suit;
-        var isPai = me
+        var isPair = me.hole_cards[0].suit === me.hole_cards[1].suit;
 
         var isHighCards = _(me.hole_cards).chain().pluck('rank').all(function(r) {
             return _.contains(goodCards, r);
         }).value();
 
-        var rating = 0 + (isSuite ? 1 : 0) + (isHighCards ? 1 : 0);
+        var rating = 0 + (isSuite ? 1 : 0) + (isPair ? 2 : 0) + (isHighCards ? 1 : 0);
         console.log('Rated cards %s -> %s', JSON.stringify(me.hole_cards), rating);
         return rating;
     },
