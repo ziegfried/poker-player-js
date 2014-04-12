@@ -3,7 +3,7 @@ var _ = require('./underscore');
 var Player = function() {};
 _.extend(Player.prototype, {
 
-    VERSION: "No Idea Bot v0.1.2",
+    VERSION: "No Idea Bot v0.1.3",
 
     bet_request: function(gameState) {
         if (!gameState) {
@@ -16,6 +16,15 @@ _.extend(Player.prototype, {
             var preFlopRating = this.ratePreFlop(gameState);
             switch (preFlopRating) {
                 case 0:
+                    switch (parseInt(Math.random() * 2))
+                    {
+                        case 0:
+                            console.log("No good cards, raising slowly... :)");
+                            return this.raise(gameState, 10);
+                        case default:
+                            console.log("No good cards, check/fold");
+                            return 0;
+                    }
                     console.log('>> check/fold');
                     return 0;
                 default:
@@ -60,7 +69,6 @@ _.extend(Player.prototype, {
         }).value();
 
         var rating = 0 + (isSuite ? 1 : 0) + (isPair ? 2 : 0) + (isHighCards ? 1 : 0);
-        console.log('Rated cards %s -> %s', JSON.stringify(me.hole_cards), rating);
         return rating;
     },
 
