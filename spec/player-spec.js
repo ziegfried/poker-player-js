@@ -119,20 +119,35 @@ describe('player', function() {
 
       it('should return a rating of 3 for a high card pair', function() {
          var mock = buildMockWithCards([
-            { "rank": "D", "suite": "hearts" },
-            { "rank": "D", "suite": "spades" }
+            { "rank": "D", "suit": "hearts" },
+            { "rank": "D", "suit": "spades" }
          ]);
          expect(player.ratePreFlop(mock)).toBe(3);
       });
 
       it('should return a rating of 2 for suited high cards', function() {
          var obj = buildMockWithCards([
-            { "rank": "D", "suite": "hearts" },
-            { "rank": "J", "suite": "hearts" }
+            { "rank": "D", "suit": "hearts" },
+            { "rank": "J", "suit": "hearts" }
          ]);
          expect(player.ratePreFlop(obj)).toBe(2);
       });
 
+      it('should return a rating of 1 for suited low cards', function() {
+         var obj = buildMockWithCards([
+            { "rank": "2", "suit": "hearts" },
+            { "rank": "3", "suit": "hearts" }
+         ]);
+         expect(player.ratePreFlop(obj)).toBe(1);
+      });
+
+      it('should return a rating of 1 for two high cards', function() {
+         var obj = buildMockWithCards([
+            { "rank": "J", "suit": "hearts" },
+            { "rank": "D", "suit": "spades" }
+         ]);
+         expect(player.ratePreFlop(obj)).toBe(1);
+      });
 
    });
 
