@@ -1,6 +1,8 @@
 var _ = require('./underscore');
 
-var Player = function() {};
+var Player = function() {
+    this.state = {};
+};
 _.extend(Player.prototype, {
 
     VERSION: "No Idea Bot v0.1.2",
@@ -11,33 +13,39 @@ _.extend(Player.prototype, {
             return 0;
         }
 
+        var me = gameState.players[gameState.in_action];
+
         if (this.isPreflop(gameState)) {
+            this.state.haveBigBlind = me.bet == 2 * gameState.small_blind;
             console.log('PRE FLOP');
             var preFlopRating = this.ratePreFlop(gameState);
             switch (preFlopRating) {
                 case 0:
-                    console.log('>> check/fold');
-                    return 0;
+                    if (this.state.haveBigBlind) {
+                        console.log('big blind call');
+                        return this.call(gameState);
+                    } else {
+                        console.log('>> check/fold');
+                        return 0;
+                    }
                 default:
                     console.log('RAISE', preFlopRating);
                     return this.raise(gameState, preFlopRating);
             }
         } else {
             console.log('POST FLOP');
-            switch (parseInt(Math.random() * 20)) {
-                case 0:
-                    return this.allIn(gameState);
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                    return this.raiseMin(gameState);
-                case 5:
-                case 6:
-                case 7:
-                    return this.fold(gameState);
-                default:
-                    return this.check(gameState);
+            var rand = parseInt(Math.random() * 100);
+            if (rand === 0) {
+                return this.allIn(gameState);
+            }
+            else if (rand < 10) {
+                return this.raiseMin(gameState);
+            }
+            else if (rand < 20) {
+                return this.fold(gameState);
+            }
+            else {
+                return this.call(gameState);
             }
         }
     },
@@ -45,6 +53,11 @@ _.extend(Player.prototype, {
     raise: function(gameState, factor) {
         var me = gameState.players[gameState.in_action];
         return gameState.current_buy_in - me.bet + gameState.minimum_raise * factor;
+    },
+
+    call: function(gameState) {
+        var me = gameState.players[gameState.in_action];
+        return gameState.current_buy_in - me.bet;
     },
 
     ratePreFlop: function(gameState) {
@@ -90,7 +103,8 @@ _.extend(Player.prototype, {
     },
 
     showdown: function(gameState) {
-
+        console.log('SHOWDOWN');
+        this.state = {};
     }
 });
 
