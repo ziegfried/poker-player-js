@@ -1,7 +1,7 @@
 var _ = require('./underscore');
 
 var Player = function() {
-    this.state = {};
+    this.state = { lowBall: Math.random() > .8 };
 };
 _.extend(Player.prototype, {
 
@@ -24,6 +24,9 @@ _.extend(Player.prototype, {
             var preFlopRating = this.ratePreFlop(gameState);
             if (numberOfPlayers > 3) {
                 preFlopRating--;
+                if (this.lowBall) {
+                    preFlopRating--;
+                }
             }
             switch (preFlopRating) {
                 case 0:
@@ -32,7 +35,7 @@ _.extend(Player.prototype, {
                         return this.call(gameState);
                     } else {
                         console.log('>> check/fold');
-                        return 0;
+                        return this.fold();
                     }
                 default:
                     console.log('RAISE', preFlopRating);
