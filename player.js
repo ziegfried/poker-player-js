@@ -14,19 +14,14 @@ module.exports = {
         var current_buy_in = gameState.current_buy_in;
 
         if (this.isPreflop(gameState)) {
-            switch (this.ratePreFlop(gameState)) {
+            var preFlopRating = this.ratePreFlop(gameState);
+            switch (preFlopRating) {
                 case 0:
                     console.log('>> check/fold');
                     return 0;
-                case 1:
-                    console.log('>> min raise');
-                    return this.raiseMin(gameState);
-                case 2:
-                    console.log('max raise');
-                    return this.raiseMin(gameState);
-                case 3:
-                    console.log('max raise');
-                    return 1000;
+                default:
+                    console.log('RAISE', preFlopRating);
+                    return this.raise(gameState, preFlopRating);
             }
         } else {
             switch (parseInt(Math.random() * 20)) {
@@ -45,6 +40,10 @@ module.exports = {
                     return this.check(gameState);
             }
         }
+    },
+
+    raise: function(gameState, factor) {
+        return gameState.current_buy_in - me.bet + gameState.minimum_raise * factor;
     },
 
     ratePreFlop: function(gameState) {
