@@ -69,7 +69,7 @@ module.exports = {
     },
 
     isPreflop: function(gameState) {
-        return !gameState.community_cards.length;
+        return !(gameState.community_cards && gameState.community_cards.length);
     },
 
     raiseMin: function(gameState) {
