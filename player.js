@@ -11,7 +11,6 @@ module.exports = {
         }
         var players = gameState.players;
         var current_buy_in = gameState.current_buy_in;
-        var me = players[gameState.in_action];
 
         if (this.isPreflop(gameState)) {
             switch (this.ratePreFlop(gameState)) {
@@ -45,6 +44,7 @@ module.exports = {
         var goodCards = ['J', 'D', 'K', 'A'];
 
         var isSuite = me.hole_cards[0].suit === me.hole_cards[1].suit;
+        var isPai = me
 
         var isHighCards = _(me.hole_cards).chain().pluck('rank').all(function(r) {
             return _.contains(goodCards, r);
