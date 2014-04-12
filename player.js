@@ -2,7 +2,7 @@ var _ = require('./underscore');
 
 module.exports = {
 
-    VERSION: "No Idea Bot v0.1",
+    VERSION: "No Idea Bot v0.1.1",
 
     bet_request: function(gameState) {
         console.log('BET REQUEST: ' + JSON.stringify(gameState, null, '\t'));
@@ -49,7 +49,9 @@ module.exports = {
 
     ratePreFlop: function(gameState) {
         var players = gameState.players;
+        console.log("Players: " + players );
         var me = players[gameState.in_action];
+        console.log("Myself: " + me );
         var goodCards = ['J', 'D', 'K', 'A'];
 
         var isSuite = me.hole_cards[0].suit === me.hole_cards[1].suit;
