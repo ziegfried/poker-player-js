@@ -2,7 +2,7 @@ var _ = require('./underscore');
 
 module.exports = {
 
-    VERSION: "Default JavaScript folding player",
+    VERSION: "No Idea Bot v0.1",
 
     bet_request: function(gameState) {
         if (!gameState) {
