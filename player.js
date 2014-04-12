@@ -108,7 +108,7 @@ _.extend(Player.prototype, {
     },
 
     allIn: function(gameState) {
-        return gameState.players[gameState.in_action].stack;
+        return 200;
     },
 
     check: function(gameState) {
