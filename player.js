@@ -78,7 +78,7 @@ _.extend(Player.prototype, {
     ratePreFlop: function(gameState) {
         var players = gameState.players;
         var me = players[gameState.in_action];
-        var goodCards = ['J', 'D', 'K', 'A'];
+        var goodCards = ['10', 'J', 'D', 'K', 'A'];
 
         var isSuite = me.hole_cards[0].suit === me.hole_cards[1].suit;
         var isPair = me.hole_cards[0].rank === me.hole_cards[1].rank;
