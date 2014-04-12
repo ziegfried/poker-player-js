@@ -1,11 +1,12 @@
 var _ = require('./underscore');
 
-module.exports = {
+var Player = function() {};
+_.extend(Player.prototype, {
 
     VERSION: "No Idea Bot v0.1.1",
 
     bet_request: function(gameState) {
-        console.log('BET REQUEST: ' + JSON.stringify(gameState, null, '\t'));
+        console.log('BET REQUEST: ' + JSON.stringify(gameState));
         if (!gameState) {
             console.log('bet_request called with empty game state!!!');
             return 0;
@@ -48,9 +49,7 @@ module.exports = {
 
     ratePreFlop: function(gameState) {
         var players = gameState.players;
-        console.log("Players: " + players );
         var me = players[gameState.in_action];
-        console.log("Myself: " + me );
         var goodCards = ['J', 'D', 'K', 'A'];
 
         var isSuite = me.hole_cards[0].suit === me.hole_cards[1].suit;
@@ -93,4 +92,6 @@ module.exports = {
     showdown: function(gameState) {
 
     }
-};
+});
+
+module.exports = new Player();
