@@ -16,9 +16,13 @@ _.extend(Player.prototype, {
         var me = gameState.players[gameState.in_action];
 
         if (this.isPreflop(gameState)) {
+            var numberOfPlayers = _(gameState.players).filter(function(player){
+                return player.state !== 'out';
+            });
             this.state.haveBigBlind = me.bet == 2 * gameState.small_blind;
             console.log('PRE FLOP');
             var preFlopRating = this.ratePreFlop(gameState);
+            preFlopRating -= (numberOfPlayers-2);
             switch (preFlopRating) {
                 case 0:
                     if (this.state.haveBigBlind) {
