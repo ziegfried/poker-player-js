@@ -22,7 +22,9 @@ _.extend(Player.prototype, {
             this.state.haveBigBlind = me.bet == 2 * gameState.small_blind;
             console.log('PRE FLOP');
             var preFlopRating = this.ratePreFlop(gameState);
-            preFlopRating -= (numberOfPlayers - 2);
+            if (numberOfPlayers > 3) {
+                preFlopRating--;
+            }
             switch (preFlopRating) {
                 case 0:
                     if (this.state.haveBigBlind) {
