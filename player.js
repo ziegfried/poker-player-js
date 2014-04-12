@@ -19,7 +19,8 @@ module.exports = {
     },
     
     raiseMin: function(game_state){
-        return game_state.current_buy_in - game_state.players[game_state.in_action][game_state.bet] + game_state.minimum_raise;
+        var me = game_state.players[game_state.in_action]; 
+        return game_state.current_buy_in - me.bet + game_state.minimum_raise;
     },
 
 
