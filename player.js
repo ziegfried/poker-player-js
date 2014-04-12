@@ -5,15 +5,25 @@ module.exports = {
     VERSION: "Default JavaScript folding player",
 
     bet_request: function(gameState) {
+        if (!gameState) {
+            console.log('bet_request called with empty game state!!!');
+            return 0;
+        }
         var players = gameState.players;
         var current_buy_in = gameState.current_buy_in;
         var me = players[gameState.in_action];
 
         if (this.isPreflop(gameState)) {
-            if (this.ratePreflop(gameState) > 0) {
-                return 1000;
-            } else {
-                return 0;
+            switch (this.ratePreFlop(gameState)) {
+                case 0:
+                    console.log('>> check/fold');
+                    return 0;
+                case 1:
+                    console.log('>> min raise');
+                    return this.raiseMin(gameState);
+                case 2:
+                    console.log('max raise');
+                    return 1000;
             }
         } else {
             switch (parseInt(Math.random() * 10)) {
@@ -29,14 +39,24 @@ module.exports = {
         }
     },
 
-    ratePreflop: function(gameState) {
+    ratePreFlop: function(gameState) {
         var players = gameState.players;
         var me = players[gameState.in_action];
         var goodCards = ['J', 'D', 'K', 'A'];
-        
-        return _(me.hole_cards).chain().pluck('rank').all(function(r){
+
+        var isSuite = me.hole_cards[0].suit === me.hole_cards[1].suit;
+
+        var isHighCards = _(me.hole_cards).chain().pluck('rank').all(function(r) {
             return _.contains(goodCards, r);
-        }).value() ? 1 : 0;
+        }).value();
+
+        var rating = 0 + (isSuite ? 1 : 0) + (isHighCards ? 1 : 0);
+        console.log('Rated cards %s -> %s', JSON.stringify(me.hole_cards), rating);
+        return rating;
+    },
+
+    ratePostFlop: function(gameState) {
+        return 0;
     },
 
     isPreflop: function(gameState) {
