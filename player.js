@@ -1,7 +1,7 @@
 var _ = require('./underscore');
 
 var Player = function() {
-    this.state = { lowBall: Math.random() > .8 };
+    this.state = { lowBall: Math.random() > .9 };
 };
 _.extend(Player.prototype, {
 
