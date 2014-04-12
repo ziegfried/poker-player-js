@@ -53,7 +53,7 @@ _.extend(Player.prototype, {
         var goodCards = ['J', 'D', 'K', 'A'];
 
         var isSuite = me.hole_cards[0].suit === me.hole_cards[1].suit;
-        var isPair = me.hole_cards[0].suit === me.hole_cards[1].suit;
+        var isPair = me.hole_cards[0].rank === me.hole_cards[1].rank;
 
         var isHighCards = _(me.hole_cards).chain().pluck('rank').all(function(r) {
             return _.contains(goodCards, r);
