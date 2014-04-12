@@ -16,13 +16,13 @@ _.extend(Player.prototype, {
         var me = gameState.players[gameState.in_action];
 
         if (this.isPreflop(gameState)) {
-            var numberOfPlayers = _(gameState.players).filter(function(player){
+            var numberOfPlayers = _(gameState.players).filter(function(player) {
                 return player.state !== 'out';
             });
             this.state.haveBigBlind = me.bet == 2 * gameState.small_blind;
             console.log('PRE FLOP');
             var preFlopRating = this.ratePreFlop(gameState);
-            preFlopRating -= (numberOfPlayers-2);
+            preFlopRating -= (numberOfPlayers - 2);
             switch (preFlopRating) {
                 case 0:
                     if (this.state.haveBigBlind) {
@@ -47,10 +47,13 @@ _.extend(Player.prototype, {
                 console.log('raise min -> ' + amount);
                 return amount;
             } else if (rand < 400) {
-                console.log('fold');
                 return this.fold(gameState);
             } else {
-                console.log('call');
+                if (gameState.current_buy_in - me.bet > 100) {
+                    if (Math.random() * 100 > 10) {
+                        return this.fold(gameState);
+                    }
+                }
                 return this.call(gameState);
             }
         }
@@ -58,12 +61,16 @@ _.extend(Player.prototype, {
 
     raise: function(gameState, factor) {
         var me = gameState.players[gameState.in_action];
-        return gameState.current_buy_in - me.bet + gameState.minimum_raise * factor;
+        var amount = gameState.current_buy_in - me.bet + gameState.minimum_raise * factor;
+        console.log('raise', amount);
+        return amount;
     },
 
     call: function(gameState) {
         var me = gameState.players[gameState.in_action];
-        return gameState.current_buy_in - me.bet;
+        var amount = gameState.current_buy_in - me.bet;
+        console.log('call', amount);
+        return  amount;
     },
 
     ratePreFlop: function(gameState) {
@@ -100,10 +107,12 @@ _.extend(Player.prototype, {
     },
 
     check: function(gameState) {
+        console.log('check');
         return 0;
     },
 
     fold: function(gameState) {
+        console.log('fold');
         return 0;
     },
 
