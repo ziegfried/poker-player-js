@@ -6,15 +6,13 @@ _.extend(Player.prototype, {
     VERSION: "No Idea Bot v0.1.2",
 
     bet_request: function(gameState) {
-        console.log('BET REQUEST: ' + JSON.stringify(gameState));
         if (!gameState) {
             console.log('bet_request called with empty game state!!!');
             return 0;
         }
-        var players = gameState.players;
-        var current_buy_in = gameState.current_buy_in;
 
         if (this.isPreflop(gameState)) {
+            console.log('PRE FLOP');
             var preFlopRating = this.ratePreFlop(gameState);
             switch (preFlopRating) {
                 case 0:
@@ -25,6 +23,7 @@ _.extend(Player.prototype, {
                     return this.raise(gameState, preFlopRating);
             }
         } else {
+            console.log('POST FLOP');
             switch (parseInt(Math.random() * 20)) {
                 case 0:
                     return this.allIn(gameState);
