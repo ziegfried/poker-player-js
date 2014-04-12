@@ -32,13 +32,16 @@ _.extend(Player.prototype, {
                 case 0:
                     if (this.state.haveBigBlind) {
                         console.log('big blind call');
+                        if (gameState.current_buy_in - me.bet > 100) {
+                            this.fold(gameState);
+                        }
                         return this.call(gameState);
                     } else {
                         console.log('>> check/fold');
                         return this.fold();
                     }
                 default:
-                    console.log('RAISE', preFlopRating);
+                    console.log('RAISE with rating', preFlopRating);
                     return this.raise(gameState, preFlopRating);
             }
         } else {
