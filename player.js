@@ -24,9 +24,9 @@ _.extend(Player.prototype, {
             var preFlopRating = this.ratePreFlop(gameState);
             if (numberOfPlayers > 3) {
                 preFlopRating--;
-                if (this.lowBall) {
-                    preFlopRating--;
-                }
+            }
+            if (this.lowBall && numberOfPlayers > 3) {
+                preFlopRating--;
             }
             switch (preFlopRating) {
                 case 0:
