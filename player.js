@@ -3,7 +3,7 @@ var _ = require('./underscore');
 var Player = function() {};
 _.extend(Player.prototype, {
 
-    VERSION: "No Idea Bot v0.1.1",
+    VERSION: "No Idea Bot v0.1.2",
 
     bet_request: function(gameState) {
         console.log('BET REQUEST: ' + JSON.stringify(gameState));
