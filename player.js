@@ -33,7 +33,7 @@ _.extend(Player.prototype, {
                     if (this.state.haveBigBlind) {
                         console.log('big blind call');
                         if (gameState.current_buy_in - me.bet > 100) {
-                            this.fold(gameState);
+                            return this.fold(gameState);
                         }
                         return this.call(gameState);
                     } else {
