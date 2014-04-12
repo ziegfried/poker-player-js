@@ -44,6 +44,7 @@ _.extend(Player.prototype, {
     },
 
     raise: function(gameState, factor) {
+        var me = gameState.players[gameState.in_action];
         return gameState.current_buy_in - me.bet + gameState.minimum_raise * factor;
     },
 
