@@ -50,7 +50,7 @@ _.extend(Player.prototype, {
             if (rand === 0) {
                 console.log('ALL IN! :D');
                 return this.allIn(gameState);
-            } else if (rand < 300) {
+            } else if (rand < 50) {
                 var amount = this.raiseMin(gameState);
                 console.log('raise min -> ' + amount);
                 return amount;
