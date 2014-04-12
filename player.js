@@ -52,7 +52,7 @@ _.extend(Player.prototype, {
                 return this.fold(gameState);
             } else {
                 if (gameState.current_buy_in - me.bet > 100) {
-                    if (Math.random() * 100 > 10) {
+                    if (Math.random() * 100 > 5) {
                         return this.fold(gameState);
                     }
                 }
