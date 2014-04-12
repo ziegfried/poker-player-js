@@ -34,17 +34,19 @@ _.extend(Player.prototype, {
             }
         } else {
             console.log('POST FLOP');
-            var rand = parseInt(Math.random() * 100);
+            var rand = parseInt(Math.random() * 1000);
             if (rand === 0) {
+                console.log('ALL IN! :D');
                 return this.allIn(gameState);
-            }
-            else if (rand < 10) {
-                return this.raiseMin(gameState);
-            }
-            else if (rand < 20) {
+            } else if (rand < 300) {
+                var amount = this.raiseMin(gameState);
+                console.log('raise min -> ' + amount);
+                return amount;
+            } else if (rand < 400) {
+                console.log('fold');
                 return this.fold(gameState);
-            }
-            else {
+            } else {
+                console.log('call');
                 return this.call(gameState);
             }
         }
